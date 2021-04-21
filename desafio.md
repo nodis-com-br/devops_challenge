@@ -54,15 +54,15 @@ Exemplo:
 ## Definição do "produto"
 ```
 {
-    "productId"​: ​<int>​, ​(readonly, unique)
-    "title"​: ​<string>​, ​(required for POST)
-​    "sku"​: ​<string>​, ​(required for POST, unique)
-    "barcodes"​: ​[<string>]​, (unique)
-    "description"​: <string|null>​, (default null)
-    "attributes"​: ​[<attribute>]​, ​
-    "price"​: ​<money>​, ​(default "0.00")
-    "created"​: <timestamp>​, (readonly)
-    "lastUpdated": <timestamp|null>​ (readonly)
+    "productId": <int>, (readonly, unique)
+    "title": <string>, (required for POST)
+    "sku": <string>, (required for POST, unique)
+    "barcodes": [<string>], (unique)
+    "description": <string|null>, (default null)
+    "attributes": [<attribute>],
+    "price": <money>, (default "0.00")
+    "created": <timestamp>, (readonly)
+    "lastUpdated": <timestamp|null> (readonly)
 }
 ```
 
@@ -89,22 +89,22 @@ http://127.0.0.1:8080/api/products?start=40&num=2&fields=productId,title
 - Retorno sucesso
 ```
 {
-"totalCount"​: <int>​,
-"items"​: [​<product>​]
+    "totalCount": <int>,
+    "items": [<product>]
 }
 ```
 - Exemplo de retorno
-```
+```json
 {
-​"totalCount"​: 126​,
-"items"​: [
-{
-    "productId"​: 45​,
-​    "title": "Awesome socks"
-    },
-    {
-    "productId"​: 46​,
-    "title"​: "Batman socks"
+    "totalCount": 126,
+    "items": [
+        {
+          "productId": 45,
+          "title": "Awesome socks"
+        },
+        {
+          "productId": 46,
+          "title": "Batman socks"
         }
     ]
 }
@@ -127,64 +127,63 @@ Todos os parametros são opcionais
 | fields | Campos do produto que serão retornados da resposta | string, separado por vírgulas | --- |
 
 Exemplo Retorno sucesso
-```
+```json
 {
-"productId"​: 45​,
-"title"​: "Awesome socks"​,
-​"sku"​: "SCK-4511"​,
-​"barcodes"​: [​"7410852096307"​],
-"description"​: null​,
-"attributes"​: [
-    {
-​       "name"​: "color"​,
-​       "value"​: "Red"
-    },
-    {
-        "name"​: "size"​,​
-        "value"​: "39-41"
-    },
-],
-"price"​: "89.00",
-"created"​: 1554472112​,
-​"lastUpdated"​: null
+    "productId": 45,
+    "title": "Awesome socks",
+    "sku": "SCK-4511",
+    "barcodes": ["7410852096307"],
+    "description": null,
+    "attributes": [
+        {
+           "name": "color",
+           "value": "Red"
+        },
+        {
+            "name": "size",
+            "value": "39-41"
+        },
+    ],
+    "price": "89.00",
+    "created": 1554472112,
+    "lastUpdated": null
 }
 ```
 
 
 Retorno erro
-```
+```json
 {
-"errorText"​: "Can’t find product (<productId>)"
+    "errorText": "Can’t find product (<productId>)"
 }
 ```
 ---
 ## POST
 
 ```
-POST​ /api/products
+POST /api/products
 ```
 
 Para POST, um subset de produto é permitido, porém todos os campos requeridos para criação devem estar presentes.
 
 **Body** content
-```
+```json
 {
-​"title": "Awesome socks"​,
-"sku"​: "SCK-4511"​,
-"barcodes"​: [​"7410852096307"​],
-​"description"​: null​,
-​"attributes"​: [
+    "title": "Awesome socks",
+    "sku": "SCK-4511",
+    "barcodes": ["7410852096307"],
+    "description": null,
+    "attributes": [
         {
-​
-            "name"​: "color"​,
-            "value"​: "Red"​,
+            "name": "color",
+            "value": "Red",
         },
         {
-​            "name": "size"​,
-            "value"​: "39-41"​,
+            "name": "size",
+            "value": "39-41",
         },
     ],
-    ​"price"​: "89.00"​,
+    "price": "89.00",
 }
 ```
 * Resposta sucesso (int)
@@ -192,16 +191,16 @@ Para POST, um subset de produto é permitido, porém todos os campos requeridos 
 45
 ```
 * Resposta erro
-```
+```json
 {
-​"errorText"​: "SKU 'SCK-4511' already exists"
+    "errorText": "SKU 'SCK-4511' already exists"
 }
 ```
 ---
 ## PUT
 
 ```
-PUT​ /api/products/{productId}
+PUT /api/products/{productId}
 ```
 
 Novamente, um subset de produto é permitido.
@@ -212,15 +211,15 @@ true
 ```
 
 Retorno erro
-```
+```json
 {
- "errorText": "​ Invalid sku, can not be null"
+    "errorText": "Invalid sku, can not be null"
 }
 ```
 ---
 ## DELETE
 ```
-DELETE​ /api/products/{productId}
+DELETE /api/products/{productId}
 ```
 
 Retorno sucesso (bool)
@@ -230,7 +229,7 @@ true
 Retorno erro
 ```
 {
-​"errorText"​: "Product with productId (<productId>) does not exist"
+    "errorText": "Product with productId (<productId>) does not exist"
 }
 ```
 
@@ -241,44 +240,44 @@ Retorno erro
 Atributos
 ```
 {
-    "name"​: ​<string>​, ​(required)​
-    "value"​: ​<string>​ ​(required)
+    "name": <string>, (required)
+    "value": <string> (required)
 }
 ```
 
 ## Mysql schema
-```
-CREATE​ SCHEMA ​IF​ ​NOT​ ​EXISTS​ ​`nodis_devops_test`
-DEFAULT ​CHARACTER​ SET​ utf8mb4 COLLATE utf8mb4_unicode_ci;
+```sql
+CREATE SCHEMA IF NOT EXISTS `nodis_devops_test`
+DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
-CREATE​ ​TABLE​ ​IF​ ​NOT​ ​EXISTS​ ​`nodis_devops_test`​.`product`​ (
-`product_id`​ INT​ UNSIGNED ​NOT​ NULL​ AUTO_INCREMENT,
-`title`​ VARCHAR​(32​) NOT​ NULL​,
-`sku`​ VARCHAR​(32​) NOT​ NULL​,
-`description`​ VARCHAR(1024​) NULL​,
-`price`​ DECIMAL​(12​,2)NOT​ NULL​ DEFAULT ​0.00,
-`created`​ DATETIME​ NOT​ NULL​,
-`last_updated`​ DATETIME​ NULL,
-PRIMARY​ KEY​ (​`product_id`​),
-UNIQUE INDEX (​`sku`​ ASC​),
-INDEX (​
-`created`​
+CREATE TABLE IF NOT EXISTS `nodis_devops_test`.`product` (
+`product_id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+`title` VARCHAR(32) NOT NULL,
+`sku` VARCHAR(32) NOT NULL,
+`description` VARCHAR(1024) NULL,
+`price` DECIMAL(12,2)NOT NULL DEFAULT 0.00,
+`created` DATETIME NOT NULL,
+`last_updated` DATETIME NULL,
+PRIMARY KEY (`product_id`),
+UNIQUE INDEX (`sku` ASC),
+INDEX (
+`created`
 ),
-INDEX (​`last_updated`​)
+INDEX (`last_updated`)
 );
 
-CREATE​ ​TABLE​ ​IF​ ​NOT​ ​EXISTS​ ​`nodis_devops_test`​.`product_barcode`​ (
-`product_id`​ INT​ UNSIGNED ​NOT​ NULL​,
-`barcode`​ VARCHAR(32​) NOT​ NULL​,
-PRIMARY​ KEY​ (​`product_id`​, `barcode`​),
-UNIQUE INDEX (​`barcode`​)
+CREATE TABLE IF NOT EXISTS `nodis_devops_test`.`product_barcode` (
+`product_id` INT UNSIGNED NOT NULL,
+`barcode` VARCHAR(32) NOT NULL,
+PRIMARY KEY (`product_id`, `barcode`),
+UNIQUE INDEX (`barcode`)
 );
 
-CREATE​ ​TABLE​ ​IF​ ​NOT​ ​EXISTS​ ​`nodis_devops_test`​.`product_attribute`​ (
-`product_id`​ INT​ UNSIGNED ​NOT​ NULL​,
-`name`​ VARCHAR​(16​) NOT​ NULL​,
-`value`​ VARCHAR​(32​) NOT​ NULL​,
-PRIMARY​ KEY​ (​`product_id`​, `name`​)
+CREATE TABLE IF NOT EXISTS `nodis_devops_test`.`product_attribute` (
+`product_id` INT UNSIGNED NOT NULL,
+`name` VARCHAR(16) NOT NULL,
+`value` VARCHAR(32) NOT NULL,
+PRIMARY KEY (`product_id`, `name`)
 );
 ```
 
