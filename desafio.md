@@ -284,7 +284,7 @@ PRIMARY KEY (`product_id`, `name`)
 # Parte 2 - Entrega da aplicação
 
 - Sua aplicação deve rodar no Minikube + kubectl
-- Você deve escrever os manifestos do Kubernetes para criar o *Ingresso* para expor sua app, 1 container para rodar sua aplicação e 1 container para rodar o Banco de dados. Você deve utilizar Serviços e deployments do K8s assim como HPA setando limites de requests e uso de recursos do sistema. Os números desses limites devem ser baixos o suficiente para ser possivel ver o HPA entrar em ação a partir de requisições da máquina local.
+- Você deve escrever os manifestos do Kubernetes para expor sua app, 1 container para rodar sua aplicação e 1 container para rodar o Banco de dados. Você deve utilizar Serviços e deployments do K8s assim como HPA setando limites de requests e uso de recursos do sistema. Os números desses limites devem ser baixos o suficiente para ser possivel ver o HPA entrar em ação a partir de requisições da máquina local.
 
 * Todos os logs devem ser visiveis a partir do `kubectl logs -f <pod>`
 
